@@ -4,7 +4,13 @@ import logo from "../../../assets/logo.svg";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const signOut = () => {
+    logOut()
+      .then(() => {})
+      .catch(() => {});
+  };
 
   const menuItems = (
     <>
@@ -15,15 +21,16 @@ const Header = () => {
         {user?.email ? (
           <>
             <Link to="/orders">Orders</Link>
-            <Link to="/Logout">Log out</Link>
+            <button onClick={signOut}>Log out</button>
           </>
         ) : (
-          <Link to="/Login">Login</Link>
+          <>
+            <Link to="/Login">Login</Link>
+            <Link to="/signup">Sign up</Link>
+          </>
         )}
       </li>
-      <li className="font-semibold">
-        <Link to="/signup">Sign up</Link>
-      </li>
+      {/* <li className="font-semibold"></li> */}
     </>
   );
 
