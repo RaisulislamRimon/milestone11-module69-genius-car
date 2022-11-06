@@ -18,7 +18,7 @@ const Orders = () => {
     })
       .then((response) => {
         if (response.status === 401 || response.status === 403) {
-          logOut();
+          return logOut();
         }
         return response.json();
       })
@@ -27,7 +27,7 @@ const Orders = () => {
         setOrders(data);
       })
       .catch((error) => console.log(error));
-  }, [user?.email]);
+  }, [user?.email, logOut]);
 
   const handleDelete = (_id) => {
     const proceed = window.confirm("Are you sure to cancel your order ? ");

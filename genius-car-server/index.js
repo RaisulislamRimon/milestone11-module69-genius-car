@@ -35,7 +35,7 @@ const verifyJWT = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
     if (err) {
-      return res.status(401).send({ message: "unauthorized access" });
+      return res.status(401).send({ message: "Forbidden access" });
     }
     req.decoded = decoded;
     next();
@@ -102,7 +102,7 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/orders/:id", async (req, res) => {
+    app.delete("/orders/:id", verifyJWT, async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await orderCollection.deleteOne(query);
