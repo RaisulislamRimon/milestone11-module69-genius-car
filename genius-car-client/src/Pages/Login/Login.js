@@ -40,6 +40,7 @@ const Login = () => {
           .then((data) => {
             console.log(data);
             localStorage.setItem("genius-token", data.token);
+            navigate(from, { replace: true });
           });
       })
       .catch((error) => console.error(error));
