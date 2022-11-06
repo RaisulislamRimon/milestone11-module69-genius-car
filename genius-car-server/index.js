@@ -25,6 +25,11 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
+const verifyJWT = (req, res, next) => {
+  console.log(req.headers.authorization);
+  next();
+};
+
 async function run() {
   try {
     const serviceCollection = client.db("geniusCar").collection("services");
@@ -55,8 +60,11 @@ async function run() {
 
     // orders api
 
-    app.get("/orders", async (req, res) => {
+    app.get("/orders", verifyJWT, async (req, res) => {
+      // app.get("/orders", async (req, res) => {
       // console.log(req.query);
+      // console.log(req.headers);
+      // console.log(req.headers.authorization);
       let query = {};
       if (req.query.email) {
         query = {
