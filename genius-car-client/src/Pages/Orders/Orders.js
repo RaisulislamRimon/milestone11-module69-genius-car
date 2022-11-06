@@ -3,7 +3,7 @@ import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import OrderRow from "./OrderRow";
 
 const Orders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
 
   const [orders, setOrders] = useState([]);
 
@@ -16,7 +16,12 @@ const Orders = () => {
         authorization: `Bearer ${localStorage.getItem("genius-token")}`,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401 || response.status === 403) {
+          logOut();
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
         setOrders(data);
